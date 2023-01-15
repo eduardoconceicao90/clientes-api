@@ -3,6 +3,8 @@ package com.clientesapi.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,14 +40,14 @@ public class ClienteResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> create(@RequestBody Cliente obj) {
+	public ResponseEntity<Cliente> create(@Valid @RequestBody Cliente obj) {
 		Cliente newObj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente obj) {
+	public ResponseEntity<Cliente> update(@PathVariable Long id,@Valid @RequestBody Cliente obj) {
 		Cliente newObj = service.update(id, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
