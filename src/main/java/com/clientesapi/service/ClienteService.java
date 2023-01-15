@@ -28,16 +28,30 @@ public class ClienteService {
 
 	public Cliente create(Cliente obj) {
 		obj.setId(null);
-		Cliente newObj = repository.save(obj);
-		return newObj;
+		return repository.save(obj);
+	}
+
+	public Cliente update(Long id, Cliente obj) {
+		Cliente oldObj = findById(id);
+		oldObj.setNome(obj.getNome());
+		oldObj.setCpf(obj.getCpf());
+
+		if (id != null) {
+			return repository.save(oldObj);
+		} else {
+			new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
+
+		return null;
 	}
 
 	public void delete(Long id) {
-		findById(id);		
-		if(id != null) {
-			repository.deleteById(id);					
+		findById(id);
+
+		if (id != null) {
+			repository.deleteById(id);
 		} else {
-			new ResponseStatusException(HttpStatus.NOT_FOUND);			
+			new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
 
