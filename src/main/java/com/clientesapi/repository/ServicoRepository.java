@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.clientesapi.model.Servico;
 
 @Repository
-public interface ServicoRepository extends JpaRepository<Servico, Long>{
+public interface ServicoRepository extends JpaRepository<Servico, Long> {
 
 }
