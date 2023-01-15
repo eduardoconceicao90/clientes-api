@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.clientesapi.model.Cliente;
 import com.clientesapi.repository.ClienteRepository;
@@ -17,7 +19,7 @@ public class ClienteService {
 
 	public Cliente findById(Long id) {
 		Optional<Cliente> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	public List<Cliente> findAll() {
@@ -28,6 +30,15 @@ public class ClienteService {
 		obj.setId(null);
 		Cliente newObj = repository.save(obj);
 		return newObj;
+	}
+
+	public void delete(Long id) {
+		findById(id);		
+		if(id != null) {
+			repository.deleteById(id);					
+		} else {
+			new ResponseStatusException(HttpStatus.NOT_FOUND);			
+		}
 	}
 
 }
