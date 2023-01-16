@@ -19,7 +19,7 @@ public class ClienteService {
 
 	public Cliente findById(Long id) {
 		Optional<Cliente> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		return obj.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado!"));
 	}
 
 	public List<Cliente> findAll() {
@@ -51,7 +51,7 @@ public class ClienteService {
 		if (id != null) {
 			repository.deleteById(id);
 		} else {
-			new ResponseStatusException(HttpStatus.NOT_FOUND);
+			new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado!");
 		}
 	}
 
