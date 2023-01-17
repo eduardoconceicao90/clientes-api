@@ -30,10 +30,11 @@ public class ResourceExceptionHandler {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ExceptionHandler(ResponseStatusException.class)
 	public ResponseEntity<?> handleResponseStatusException(ResponseStatusException ex) {
-		String messagemErro = ex.getMessage();
+		String mensagemErro = ex.getMessage();
 		HttpStatus codigoStatus = ex.getStatus();		
-		ApiErrors apiErrors = new ApiErrors(messagemErro);
+		ApiErrors apiErrors = new ApiErrors(mensagemErro);
 		
 		return new ResponseEntity(apiErrors, codigoStatus);
 	}
+	
 }
