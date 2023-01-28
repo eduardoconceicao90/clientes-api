@@ -2,6 +2,7 @@ package com.clientesapi.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Entity
 @Data
-public class Servico implements Serializable {
+public class ServicoPrestado implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,5 +35,9 @@ public class Servico implements Serializable {
 
 	@Column
 	private BigDecimal valor;
+	
+	@Column
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate data;
 
 }
