@@ -2,6 +2,7 @@ package com.clientesapi.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,11 @@ public class ServicoPrestadoService {
 	@Autowired
 	private BigDecimalConverter bigDecimalConverter;
 	
-	public ServicoPrestado create(ServicoPrestadoDTO dto) {
-		
+	public List<ServicoPrestado> findByNomeClienteAndMes(String nome, Integer mes){
+		return repository.findByNomeClienteAndMes("%" + nome + "%",mes);
+	}
+	
+	public ServicoPrestado create(ServicoPrestadoDTO dto) {		
 		LocalDate data = LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		Long id_cliente = dto.getId_cliente();
 		
