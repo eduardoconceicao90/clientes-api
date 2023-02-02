@@ -3,9 +3,10 @@ package com.clientesapi.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,7 @@ public class ServicoPrestadoResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ServicoPrestadoDTO> create(@RequestBody ServicoPrestadoDTO dto){
+	public ResponseEntity<ServicoPrestadoDTO> create(@Valid @RequestBody ServicoPrestadoDTO dto){
 		ServicoPrestado newObj = service.create(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
