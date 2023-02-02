@@ -23,7 +23,6 @@ import com.clientesapi.service.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
-@CrossOrigin(value = "http://localhost:4200")
 public class ClienteResource {
 
 	@Autowired
