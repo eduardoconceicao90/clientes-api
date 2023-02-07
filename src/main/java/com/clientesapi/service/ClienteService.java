@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.clientesapi.model.Cliente;
 import com.clientesapi.repository.ClienteRepository;
+import com.clientesapi.service.exception.DataIntegratyViolationException;
 
 @Service
 public class ClienteService {
@@ -28,6 +29,11 @@ public class ClienteService {
 
 	public Cliente create(Cliente obj) {
 		obj.setId(null);
+		
+		if(findByCPF(obj) != null) {
+			throw new DataIntegratyViolationException("CPF já cadastrado!");
+		}
+		
 		return repository.save(obj);
 	}
 
@@ -35,6 +41,10 @@ public class ClienteService {
 		Cliente oldObj = findById(id);
 		oldObj.setNome(obj.getNome());
 		oldObj.setCpf(obj.getCpf());
+				
+		if(findByCPF(obj) != null && findByCPF(obj).getId() != id) {
+			throw new DataIntegratyViolationException("CPF já cadastrado!");
+		}
 
 		if (id != null) {
 			return repository.save(oldObj);
@@ -53,6 +63,15 @@ public class ClienteService {
 		} else {
 			new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado!");
 		}
+	}
+	
+	// Busca Cliente pelo CPF
+	private Cliente findByCPF(Cliente cliente) {
+		Cliente obj = repository.findByCPF(cliente.getCpf());
+		if (obj != null) {
+			return obj;
+		}
+		return null;
 	}
 
 }
