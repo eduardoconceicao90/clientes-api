@@ -31,7 +31,7 @@ public class ClienteService {
 		obj.setId(null);
 		
 		if(findByCPF(obj) != null) {
-			throw new DataIntegratyViolationException("CPF já cadastrado!");
+		    throw new DataIntegratyViolationException("CPF já cadastrado!");
 		}
 		
 		return repository.save(obj);
