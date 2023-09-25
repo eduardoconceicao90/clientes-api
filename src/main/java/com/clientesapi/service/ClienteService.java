@@ -1,16 +1,15 @@
 package com.clientesapi.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.clientesapi.model.Cliente;
+import com.clientesapi.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.clientesapi.model.Cliente;
-import com.clientesapi.repository.ClienteRepository;
-import com.clientesapi.service.exception.DataIntegratyViolationException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -31,7 +30,7 @@ public class ClienteService {
 		obj.setId(null);
 		
 		if(findByCPF(obj) != null) {
-		    throw new DataIntegratyViolationException("CPF já cadastrado!");
+			throw new DataIntegrityViolationException("CPF já cadastrado!");
 		}
 		
 		return repository.save(obj);
@@ -43,7 +42,7 @@ public class ClienteService {
 		oldObj.setCpf(obj.getCpf());
 				
 		if(findByCPF(obj) != null && findByCPF(obj).getId() != id) {
-			throw new DataIntegratyViolationException("CPF já cadastrado!");
+			throw new DataIntegrityViolationException("CPF já cadastrado!");
 		}
 
 		if (id != null) {

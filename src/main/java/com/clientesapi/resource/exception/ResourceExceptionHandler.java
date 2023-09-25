@@ -1,9 +1,6 @@
 package com.clientesapi.resource.exception;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.clientesapi.service.exception.DataIntegratyViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ResourceExceptionHandler {
@@ -39,12 +38,12 @@ public class ResourceExceptionHandler {
 		return new ResponseEntity(apiErrors, codigoStatus);
 	}
 
-	@ExceptionHandler(DataIntegratyViolationException.class)
-	public ResponseEntity<StandardError> dataIntegratyViolationException(DataIntegratyViolationException e, HttpServletRequest request){
-		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Data Integraty Violation Exception", e.getMessage(), request.getRequestURI());
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiErrors handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+		String mensagemErro = ex.getMessage();
+		List<String> errors = Arrays.asList(mensagemErro);
+		return new ApiErrors(errors);
 	}
 	
 }

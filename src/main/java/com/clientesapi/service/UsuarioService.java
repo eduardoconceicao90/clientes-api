@@ -1,11 +1,11 @@
 package com.clientesapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.clientesapi.model.Usuario;
 import com.clientesapi.repository.UsuarioRepository;
-import com.clientesapi.service.exception.DataIntegratyViolationException;
 
 @Service
 public class UsuarioService {
@@ -18,7 +18,7 @@ public class UsuarioService {
 		boolean exists = repository.existsByUsername(obj.getUsername());
 		
 		if(exists) {
-			throw new DataIntegratyViolationException("Usuário já cadastrado!");
+			throw new DataIntegrityViolationException("CPF já cadastrado!");
 		}
 		
 		return repository.save(obj);		
