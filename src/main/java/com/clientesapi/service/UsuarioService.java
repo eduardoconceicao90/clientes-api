@@ -18,7 +18,7 @@ public class UsuarioService {
 		boolean exists = repository.existsByUsername(obj.getUsername());
 		
 		if(exists) {
-			throw new DataIntegrityViolationException("CPF já cadastrado!");
+			throw new DataIntegrityViolationException("Usuário já cadastrado!");
 		}
 		
 		return repository.save(obj);		
